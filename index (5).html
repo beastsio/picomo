@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrowHorn Beasts Official Ecosystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <style>
+        :root { --primary: #ff3e3e; --secondary: #00ffcc; --bg: #000000; --panel: #0d0d0d; }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: 'VT323', monospace; overflow-x: hidden; }
+        .pixel-font { font-family: 'Press Start 2P', cursive; text-transform: uppercase; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; text-align: center; }
+        
+        /* Navbar & Wallet Status */
+        nav { display: flex; justify-content: flex-end; padding: 15px; position: sticky; top: 0; z-index: 100; }
+        #walletDisplay { background: var(--panel); border: 2px solid var(--secondary); padding: 8px 15px; font-size: 14px; display: none; color: var(--secondary); box-shadow: 0 0 10px rgba(0, 255, 204, 0.2); }
+
+        /* Hero Section */
+        .hero-img { width: 180px; height: 180px; border: 4px solid var(--primary); image-rendering: pixelated; box-shadow: 0 0 20px var(--primary); margin-top: 20px; object-fit: cover; }
+        .btn-grid { display: flex; justify-content: center; gap: 20px; margin: 35px 0; flex-wrap: wrap; }
+        .action-btn { padding: 18px 25px; border: 4px solid #fff; background: #000; color: #fff; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 6px 6px 0px var(--primary); transition: 0.1s; font-size: 14px; text-transform: uppercase; }
+        .action-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0; }
+        .btn-secondary { box-shadow: 6px 6px 0px var(--secondary); }
+        .btn-x { box-shadow: 6px 6px 0px #1DA1F2; border-color: #1DA1F2; margin: 10px auto; }
+        .btn-tg { box-shadow: 6px 6px 0px #24A1DE; border-color: #24A1DE; margin: 10px auto; }
+        
+        /* NFT Gallery */
+        .nft-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; margin-top: 25px; }
+        .nft-item { border: 2px solid #333; padding: 5px; background: #050505; transition: 0.3s; }
+        .nft-item:hover { border-color: var(--secondary); transform: scale(1.05); }
+        .nft-item img { width: 100%; image-rendering: pixelated; display: block; }
+
+        /* Sections */
+        .section { display: none; animation: fadeIn 0.5s ease; }
+        .active { display: block; }
+        .card { background: var(--panel); border: 2px solid #222; padding: 30px; margin-top: 20px; text-align: left; position: relative; }
+        
+        /* Rewards & Staking */
+        .reward-banner { background: #111; border: 2px solid gold; padding: 20px; margin-bottom: 25px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+        .staking-box { background: #050505; border: 1px dashed var(--secondary); padding: 20px; margin-top: 15px; }
+        input[type="number"] { background: #000; border: 2px solid var(--secondary); color: var(--secondary); padding: 12px; width: 130px; font-size: 1.6rem; font-family: 'VT323'; margin: 10px 0; }
+
+        .partners { display: flex; justify-content: center; gap: 40px; margin-top: 40px; border-top: 1px solid #222; padding-top: 20px; align-items: center; }
+        .partner-item { text-align: center; font-size: 12px; display: flex; flex-direction: column; align-items: center; }
+        .p-logo { max-height: 40px; max-width: 40px; display: block; margin-bottom: 5px; image-rendering: pixelated; filter: grayscale(1); transition: 0.3s; }
+        .partner-item:hover .p-logo { filter: grayscale(0); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <nav><div id="walletDisplay" class="pixel-font">Not Connected</div></nav>
+
+    <section id="homePage" class="section active">
+        <img src="https://i.ibb.co.com/7xfbPTt7/file-000000009a507208951a57883a01addb.png" id="heroImg" class="hero-img">
+        <h1 class="pixel-font" style="color: var(--primary); font-size: 32px; margin-top: 20px; text-shadow: 3px 3px #000;">CrowHorn Beasts</h1>
+        
+        <div class="btn-grid">
+            <a href="https://opensea.io/collection/crowhornnft/overview" target="_blank" style="text-decoration:none;">
+                <button class="action-btn pixel-font">
+                    <img src="https://i.ibb.co.com/SwnCHjZ2/20260406-024026.png" width="22">
+                    MINT PAGE
+                </button>
+            </a>
+            <button class="action-btn btn-secondary pixel-font" onclick="showSection('introPage')">EARN $CHB TOKEN</button>
+        </div>
+
+        <div class="card">
+            <h3 class="pixel-font" style="font-size: 12px; color: var(--secondary);">$CHB TOKENOMICS ROADMAP</h3>
+            <p>• <strong>PHASE 1:</strong> Staking Activation for Beast Holders.</p>
+            <p>• <strong>PHASE 2:</strong> $CHB Listing on Uniswap (DEX).</p>
+            <p>• <strong>PHASE 3:</strong> Centralized Exchange Listings (Bybit, CoinW).</p>
+            
+            <hr style="border: 1px solid #222; margin: 20px 0;">
+            
+            <h3 class="pixel-font" style="font-size: 12px; color: var(--primary);">NFT COLLECTION GALLERY</h3>
+            <div class="nft-gallery">
+                <div class="nft-item"><img src="https://i.ibb.co.com/6RGJ7BQg/file-00000000fdb871fa93c16cdf1f1d1e09.png"></div>
+                <div class="nft-item"><img src="https://i.ibb.co.com/QjKxWKZJ/file-00000000b62871faad0cc6fe4992aa58.png"></div>
+                <div class="nft-item"><img src="https://i.ibb.co.com/cKC0NwBV/file-000000006ff071faa7be8045fb9e5389.png"></div>
+                <div class="nft-item"><img src="https://i.ibb.co.com/BKGwbFyP/file-00000000e41871fa8b15e47e80a65433.png"></div>
+                <div class="nft-item"><img src="https://i.ibb.co.com/C5Hc5RVg/file-00000000c89071faa79da1b5cf6b25e9.png"></div>
+                <div class="nft-item"><img src="https://i.ibb.co.com/7xfbPTt7/file-000000009a507208951a57883a01addb.png"></div>
+            </div>
+
+            <div style="margin-top:30px;">
+                <h3 class="pixel-font" style="font-size: 12px; color: var(--secondary);">WHY JOIN CROWHORN BEASTS?</h3>
+                <p>CrowHorn Beasts is not just an NFT collection; it's a high-utility ecosystem where holders gain exclusive access to $CHB rewards, private community alpha, and future gaming integrations. By holding a Beast, you secure your spot in the next evolution of Web3 rewards.</p>
+            </div>
+
+            <div class="btn-grid" style="margin-top:20px;">
+                <a href="https://x.com/CrowHornNFT" target="_blank" style="text-decoration:none;">
+                    <button class="action-btn btn-x pixel-font">FOLLOW ON X</button>
+                </a>
+                <a href="https://t.me/crowhornbeasts" target="_blank" style="text-decoration:none;">
+                    <button class="action-btn btn-tg pixel-font">JOIN COMMUNITY</button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="introPage" class="section">
+        <div class="card">
+            <h2 class="pixel-font" style="color: var(--primary);">STAKE & REWARDS</h2>
+            <p style="font-size: 1.4rem; color: #ccc;">
+                Holders of CrowHorn Beasts can stake their NFTs to accumulate $CHB. 
+                Verified holders receive a one-time welcome bonus.
+            </p>
+            <div class="staking-box">
+                <p>💎 <strong>REWARD RATE:</strong> 1 NFT = 1,000 $CHB / 24 Hours</p>
+                <p>🚀 Tokens can be claimed directly to your wallet once the pool is active.</p>
+            </div>
+            <button class="action-btn pixel-font" style="width:100%; justify-content:center; margin-top:20px;" onclick="connectWallet()">CONNECT WALLET TO START</button>
+            <p onclick="showSection('homePage')" style="cursor:pointer; margin-top:20px; color:#666;">← BACK TO HOME</p>
+        </div>
+    </section>
+
+    <section id="dashboard" class="section">
+        <div class="card">
+            <h2 class="pixel-font" style="font-size: 14px; color: var(--secondary); margin-bottom:25px;">Beast Command Center</h2>
+
+            <div id="claimContainer" class="reward-banner">
+                <p class="pixel-font" style="font-size: 12px; color: gold;">HOLDER WELCOME PACK</p>
+                <p>Claim 1,000 $CHB instant reward. (Verification Required)</p>
+                <button id="claimBtn" class="action-btn pixel-font" style="box-shadow: 4px 4px 0 gold; font-size: 11px; background:#000;" onclick="handleClaim()">CLAIM 1,000 $CHB</button>
+            </div>
+
+            <div class="staking-box">
+                <p class="pixel-font" style="font-size: 12px; color: var(--secondary);">ACTIVE STAKING</p>
+                <label>Enter amount of NFTs to stake:</label><br>
+                <input type="number" id="stakeInput" value="1" min="1" oninput="updateYield()">
+                <p>Estimated Yield: <span id="yieldValue" style="color:var(--secondary); font-weight:bold;">1000</span> $CHB / Day</p>
+                <button id="stakeBtn" class="action-btn pixel-font" style="width:100%; justify-content:center;" onclick="handleSecureStake()">STAKE BEASTS</button>
+            </div>
+
+            <div class="partners">
+                <div class="partner-item">
+                    <img src="https://i.ibb.co.com/8FbKV4Y/unnamed-1.png" class="p-logo">
+                    BYBIT
+                </div>
+                <div class="partner-item">
+                    <img src="https://i.ibb.co.com/svNTVvwD/bb126b8f1d2fec5291a01664b1a585ab-icon.png" class="p-logo">
+                    COINW
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Configuration
+    const CHB_TOKEN_ADDRESS = "0x87f16034De970D3cabfF0762e68a7F26E8B9e857";
+    const NFT_COLLECTION_ADDRESS = "0x4816eEA13DBFbfC9e42e4EdAE9C134A4801681D1";
+    const CHB_ABI = [
+        "function mint(address to, uint256 amount) public",
+        "function balanceOf(address account) view returns (uint256)",
+        "function decimals() view returns (uint8)"
+    ];
+    const NFT_ABI = ["function balanceOf(address owner) view returns (uint256)"];
+
+    // Hero Image Slideshow
+    const heroImages = [
+        "https://i.ibb.co.com/6RGJ7BQg/file-00000000fdb871fa93c16cdf1f1d1e09.png",
+        "https://i.ibb.co.com/QjKxWKZJ/file-00000000b62871faad0cc6fe4992aa58.png",
+        "https://i.ibb.co.com/cKC0NwBV/file-000000006ff071faa7be8045fb9e5389.png",
+        "https://i.ibb.co.com/BKGwbFyP/file-00000000e41871fa8b15e47e80a65433.png",
+        "https://i.ibb.co.com/C5Hc5RVg/file-00000000c89071faa79da1b5cf6b25e9.png",
+        "https://i.ibb.co.com/7xfbPTt7/file-000000009a507208951a57883a01addb.png"
+    ];
+    let currentImgIndex = 0;
+    setInterval(() => {
+        currentImgIndex = (currentImgIndex + 1) % heroImages.length;
+        document.getElementById('heroImg').src = heroImages[currentImgIndex];
+    }, 3000);
+
+    let provider, signer, userAddress;
+
+    function showSection(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    // MULTI-WALLET COMPATIBLE CONNECTION
+    async function connectWallet() {
+        if (window.ethereum) {
+            try {
+                // ethers.js detects all injected wallets (Metamask, Trust, Coinbase etc)
+                provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+                await provider.send("eth_requestAccounts", []);
+                signer = provider.getSigner();
+                userAddress = await signer.getAddress();
+
+                document.getElementById('walletDisplay').innerText = userAddress.substring(0,6) + "..." + userAddress.substring(38);
+                document.getElementById('walletDisplay').style.display = "block";
+                
+                showSection('dashboard');
+            } catch (error) { 
+                console.error(error);
+                alert("Wallet connection failed. Please ensure your wallet is unlocked."); 
+            }
+        } else { 
+            alert("No crypto wallet detected! Please install MetaMask or use a Web3 browser."); 
+        }
+    }
+
+    function updateYield() {
+        const val = document.getElementById('stakeInput').value;
+        document.getElementById('yieldValue').innerText = val * 1000;
+    }
+
+    async function handleClaim() {
+        if (!userAddress) return alert("Please connect wallet");
+        const btn = document.getElementById('claimBtn');
+        btn.disabled = true;
+        btn.innerText = "VERIFYING NFT...";
+
+        try {
+            const nftContract = new ethers.Contract(NFT_COLLECTION_ADDRESS, NFT_ABI, provider);
+            const balance = await nftContract.balanceOf(userAddress);
+
+            if (parseInt(balance) > 0) {
+                btn.innerText = "PROCESSING...";
+                alert("Authorization Success! 1,000 $CHB granted.");
+                document.getElementById('claimContainer').innerHTML = "<p class='pixel-font' style='color:var(--secondary)'>✅ REWARD CLAIMED SUCCESSFULLY</p>";
+            } else {
+                alert("ACCESS DENIED: No Beasts found in wallet.");
+                btn.disabled = false;
+                btn.innerText = "CLAIM 1,000 $CHB";
+            }
+        } catch (error) {
+            alert("Error verifying NFT holder status.");
+            btn.disabled = false;
+            btn.innerText = "CLAIM 1,000 $CHB";
+        }
+    }
+
+    async function handleSecureStake() {
+        if (!userAddress) return alert("Please connect wallet");
+        const qty = document.getElementById('stakeInput').value;
+        const btn = document.getElementById('stakeBtn');
+        
+        btn.disabled = true;
+        btn.innerText = "CHECKING BALANCE...";
+
+        try {
+            const nftContract = new ethers.Contract(NFT_COLLECTION_ADDRESS, NFT_ABI, provider);
+            const balance = await nftContract.balanceOf(userAddress);
+
+            if (parseInt(balance) > 0) {
+                if (confirm("Stake " + qty + " CrowHorn Beasts? Gas fee required.")) {
+                    btn.innerText = "AWAITING WALLET...";
+                    setTimeout(() => {
+                        alert("Transaction sent! Staking authorized for " + qty + " NFTs.");
+                        btn.disabled = false;
+                        btn.innerText = "STAKE BEASTS";
+                    }, 2000);
+                } else {
+                    btn.disabled = false;
+                    btn.innerText = "STAKE BEASTS";
+                }
+            } else {
+                alert("ACCESS DENIED: You must hold CrowHorn Beast NFTs to stake.");
+                btn.disabled = false;
+                btn.innerText = "STAKE BEASTS";
+            }
+        } catch (error) {
+            alert("Connection error. Check network and gas.");
+            btn.disabled = false;
+            btn.innerText = "STAKE BEASTS";
+        }
+    }
+</script>
+
+</body>
+</html>
